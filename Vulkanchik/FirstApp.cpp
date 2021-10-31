@@ -1,8 +1,12 @@
+#pragma once
 #include "FirstApp.h"
+#include "KeyBoardMovementController.h"
 #include "CgeCamera.h"
 #include "Simple_render_System.h"
+
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
+
 
 
 #include<glm/glm.hpp>
@@ -10,6 +14,7 @@
 
 #include<stdexcept>
 #include<array>
+#include<chrono>
 #include<cassert>
 
 
@@ -32,15 +37,29 @@ namespace cge {
 	void FirstApp::run() {
 		SimpleRenderSystem simpleRenderSystem{ cgeDevice,cgeRenderer.getSwapChainRenderPass() };
         CgeCamera camera{};
-        //camera.setViewDirection(glm::vec3(0.f), glm::vec3(0.5f, 0.f, 1.f));
-        camera.setViewTarget(glm::vec3(-1.f, -2.f, 2.f), glm::vec3(0.f, 0.f, 2.5f));
+        camera.setViewTarget(glm::vec3(-2.f, -1.f, 2.f), glm::vec3(0.f, 0.f, 2.5f));
+
+        auto viewerObject = CgeGameObject::createGameObject();
+        KeyBoardMovementController cameraController{};
+
+        auto currentTime = std::chrono::high_resolution_clock::now();
+
 		while (!cgeWindow.shouldClose()) {
 			glfwPollEvents();
+            auto newTime = std::chrono::high_resolution_clock::now();
 
+            float frameTime = std::chrono::duration<float, std::chrono::seconds::period>(newTime - currentTime).count();
+            currentTime = newTime;
+
+            cameraController.moveInPlaneXZ(cgeWindow.getGLFWwindow(), frameTime, viewerObject);
+
+            camera.setViewYXZ(viewerObject.transform.translation, viewerObject.transform.rotation);
+
+            
             float aspect= cgeRenderer.getAspectRation();
 
-            //camera.setOrthographicProjection(-aspect, aspect, -1, 1, -1, 1);
-            camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 10.f);
+          
+            camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 100.f);
 			if (auto commandBuffer = cgeRenderer.beginFrame()) {
 				cgeRenderer.beginSwapChainRenderPass(commandBuffer);
 				simpleRenderSystem.renderGameObjects(commandBuffer, gameObjects, camera);
