@@ -21,8 +21,12 @@ namespace cge {
 			static std::vector<VkVertexInputBindingDescription> getBindingDescriptions();
 			static std::vector<VkVertexInputAttributeDescription> getAttributeDescriptions();
 		};
+		struct Data {
+			std::vector<Vertex> vertices{};
+			std::vector<uint32_t> indices{};
+		};
 
-		CgeModel(CgeDevice &device,const std::vector<Vertex> &verticies);
+		CgeModel(CgeDevice &device,const CgeModel::Data &data);
 		~CgeModel();
 
 		CgeModel(const CgeModel&) = delete;
@@ -32,12 +36,20 @@ namespace cge {
 		void draw(VkCommandBuffer commandBuffer);
 	private:
 		void createVertexBuffers(const std::vector<Vertex>& verticies);
+		void createIndexBuffers(const std::vector<uint32_t>& indicies);
 
 
 		CgeDevice &cgeDevice;
 		VkBuffer vertexBuffer;
 		VkDeviceMemory vertexBufferMemory;
 		uint32_t vertexCount;
+
+		bool hasIndexBuffer = false;
+
+		VkBuffer indexBuffer;
+		VkDeviceMemory indexBufferMemory;
+		uint32_t indexCount;
+
 
 		
 	};
