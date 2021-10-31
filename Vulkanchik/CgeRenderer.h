@@ -22,7 +22,7 @@ namespace cge {
 		CgeRenderer& operator =(const CgeRenderer&) = delete;
 
 		VkRenderPass getSwapChainRenderPass() const { return cgeSwapChain->getRenderPass(); }
-
+		float getAspectRation() const { return cgeSwapChain->extentAspectRatio(); }
 		bool isFrameInProgress() const { return isFrameStarted; }
 
 		VkCommandBuffer getCurrentCommandBuffer() const {

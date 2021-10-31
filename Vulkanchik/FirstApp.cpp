@@ -1,7 +1,9 @@
 #include "FirstApp.h"
+#include "CgeCamera.h"
 #include "Simple_render_System.h"
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
+
 
 #include<glm/glm.hpp>
 #include<glm/gtc/constants.hpp>
@@ -15,23 +17,7 @@
 namespace cge {
 
 
-	void FirstApp::sierpienskie(std::vector<CgeModel::Vertex>& verticies, int depth, glm::vec2 left, glm::vec2 right, glm::vec2 top)
-	{
-		if (depth <= 0) {
-			verticies.push_back({ {left} });
-			verticies.push_back({ {right} });
-			verticies.push_back({ {top} });
-		}
-		else {
-			auto nleft = 0.5f * (left + top);
-			auto ntop = 0.5f * (left + right);
-			auto nright = 0.5f * (right + top);
 
-			sierpienskie(verticies, depth - 1, left, ntop, nleft);
-			sierpienskie(verticies, depth - 1, ntop, right, nright);
-			sierpienskie(verticies, depth - 1, nleft, nright, top);
-		}
-	}
 	FirstApp::FirstApp()
 	{
 		loadGameObjects();
@@ -45,35 +31,91 @@ namespace cge {
 
 	void FirstApp::run() {
 		SimpleRenderSystem simpleRenderSystem{ cgeDevice,cgeRenderer.getSwapChainRenderPass() };
-
+        CgeCamera camera{};
+        //camera.setViewDirection(glm::vec3(0.f), glm::vec3(0.5f, 0.f, 1.f));
+        camera.setViewTarget(glm::vec3(-1.f, -2.f, 2.f), glm::vec3(0.f, 0.f, 2.5f));
 		while (!cgeWindow.shouldClose()) {
 			glfwPollEvents();
+
+            float aspect= cgeRenderer.getAspectRation();
+
+            //camera.setOrthographicProjection(-aspect, aspect, -1, 1, -1, 1);
+            camera.setPerspectiveProjection(glm::radians(50.f), aspect, 0.1f, 10.f);
 			if (auto commandBuffer = cgeRenderer.beginFrame()) {
 				cgeRenderer.beginSwapChainRenderPass(commandBuffer);
-				simpleRenderSystem.renderGameObjects(commandBuffer, gameObjects);
+				simpleRenderSystem.renderGameObjects(commandBuffer, gameObjects, camera);
 				cgeRenderer.endSwapChainRenderPass(commandBuffer);
 				cgeRenderer.endFrame();
 			}
 		}
 		vkDeviceWaitIdle(cgeDevice.device());
 	}
+
+    std::unique_ptr<CgeModel> createCubeModel(CgeDevice& device, glm::vec3 offset) {
+        std::vector<CgeModel::Vertex> vertices{
+
+            // left face (white)
+            {{-.5f, -.5f, -.5f}, {.9f, .9f, .9f}},
+            {{-.5f, .5f, .5f}, {.9f, .9f, .9f}},
+            {{-.5f, -.5f, .5f}, {.9f, .9f, .9f}},
+            {{-.5f, -.5f, -.5f}, {.9f, .9f, .9f}},
+            {{-.5f, .5f, -.5f}, {.9f, .9f, .9f}},
+            {{-.5f, .5f, .5f}, {.9f, .9f, .9f}},
+
+            // right face (yellow)
+            {{.5f, -.5f, -.5f}, {.8f, .8f, .1f}},
+            {{.5f, .5f, .5f}, {.8f, .8f, .1f}},
+            {{.5f, -.5f, .5f}, {.8f, .8f, .1f}},
+            {{.5f, -.5f, -.5f}, {.8f, .8f, .1f}},
+            {{.5f, .5f, -.5f}, {.8f, .8f, .1f}},
+            {{.5f, .5f, .5f}, {.8f, .8f, .1f}},
+
+            // top face (orange, remember y axis points down)
+            {{-.5f, -.5f, -.5f}, {.9f, .6f, .1f}},
+            {{.5f, -.5f, .5f}, {.9f, .6f, .1f}},
+            {{-.5f, -.5f, .5f}, {.9f, .6f, .1f}},
+            {{-.5f, -.5f, -.5f}, {.9f, .6f, .1f}},
+            {{.5f, -.5f, -.5f}, {.9f, .6f, .1f}},
+            {{.5f, -.5f, .5f}, {.9f, .6f, .1f}},
+
+            // bottom face (red)
+            {{-.5f, .5f, -.5f}, {.8f, .1f, .1f}},
+            {{.5f, .5f, .5f}, {.8f, .1f, .1f}},
+            {{-.5f, .5f, .5f}, {.8f, .1f, .1f}},
+            {{-.5f, .5f, -.5f}, {.8f, .1f, .1f}},
+            {{.5f, .5f, -.5f}, {.8f, .1f, .1f}},
+            {{.5f, .5f, .5f}, {.8f, .1f, .1f}},
+
+            // nose face (blue)
+            {{-.5f, -.5f, 0.5f}, {.1f, .1f, .8f}},
+            {{.5f, .5f, 0.5f}, {.1f, .1f, .8f}},
+            {{-.5f, .5f, 0.5f}, {.1f, .1f, .8f}},
+            {{-.5f, -.5f, 0.5f}, {.1f, .1f, .8f}},
+            {{.5f, -.5f, 0.5f}, {.1f, .1f, .8f}},
+            {{.5f, .5f, 0.5f}, {.1f, .1f, .8f}},
+
+            // tail face (green)
+            {{-.5f, -.5f, -0.5f}, {.1f, .8f, .1f}},
+            {{.5f, .5f, -0.5f}, {.1f, .8f, .1f}},
+            {{-.5f, .5f, -0.5f}, {.1f, .8f, .1f}},
+            {{-.5f, -.5f, -0.5f}, {.1f, .8f, .1f}},
+            {{.5f, -.5f, -0.5f}, {.1f, .8f, .1f}},
+            {{.5f, .5f, -0.5f}, {.1f, .8f, .1f}},
+
+        };
+        for (auto& v : vertices) {
+            v.position += offset;
+        }
+        return std::make_unique<CgeModel>(device, vertices);
+    }
 	void FirstApp::loadGameObjects()
 	{
-		std::vector<CgeModel::Vertex> verticies{
-			{{ -0.5f,0.5f },{1.0f,0.0f,0.0f}},
-			{{ 0.5f,0.5f },{0.0f,1.0f,0.0f}},
-			{{ 0.0f,-0.5f },{0.0f,0.0f,1.0f}},
-		};
+        std::shared_ptr<CgeModel> cgeModel = createCubeModel(cgeDevice, { 0.f,0.f,0.f });
 
-
-		auto cgeModel = std::make_shared<CgeModel>(cgeDevice, verticies);
-
-		auto triangle = CgeGameObject::createGameObject();
-		triangle.model = cgeModel;
-		triangle.color = { .1f,.8f,.1f };
-		triangle.transform2d.translation.x = .2f;
-		triangle.transform2d.scale = { 2.f,.5f };
-		triangle.transform2d.rotation = .25f * glm::two_pi<float>();
-		gameObjects.push_back(std::move(triangle));
+        auto cube = CgeGameObject::createGameObject();
+        cube.model = cgeModel;
+        cube.transform.translation = { .0f,.0f,2.5f };
+        cube.transform.scale = { .5f,.5f,.5f };
+        gameObjects.push_back(std::move(cube));
 	}
 }

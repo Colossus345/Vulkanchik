@@ -1,5 +1,6 @@
 #pragma once
 
+#include"CgeCamera.h"
 #include"CgeDevice.h"
 #include"CgeGameObject.h"
 #include"CG_pipeline.h"
@@ -17,7 +18,9 @@ namespace cge {
 		SimpleRenderSystem(const SimpleRenderSystem&) = delete;
 		SimpleRenderSystem& operator =(const SimpleRenderSystem&) = delete;
 
-		void renderGameObjects(VkCommandBuffer commandBuffer, std::vector<CgeGameObject>& gameObjects);
+		void renderGameObjects(VkCommandBuffer commandBuffer, 
+			std::vector<CgeGameObject>& gameObjects,
+			const CgeCamera& camera);
 
 	private:
 		 

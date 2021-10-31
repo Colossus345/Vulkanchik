@@ -155,6 +155,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CgeCamera.cpp" />
     <ClCompile Include="CgeDevice.cpp" />
     <ClCompile Include="CgeModel.cpp" />
     <ClCompile Include="CgeRenderer.cpp" />
@@ -166,6 +167,7 @@
     <ClCompile Include="SimpleRenderSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CgeCamera.h" />
     <ClInclude Include="CgeDevice.h" />
     <ClInclude Include="CgeGameObject.h" />
     <ClInclude Include="CgeModel.h" />

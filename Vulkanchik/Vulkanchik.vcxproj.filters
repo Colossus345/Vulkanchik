@@ -45,6 +45,9 @@
     <ClCompile Include="SimpleRenderSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CgeCamera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CG_window.h">
@@ -72,6 +75,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Simple_render_System.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CgeCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
