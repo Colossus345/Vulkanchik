@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Syndafloden\Documents\Visual Studio 2019\lib\glfw-3.3.4.bin.WIN64\glfw-3.3.4.bin.WIN64\include;C:\Users\Syndafloden\Documents\Visual Studio 2019\lib\glm-0.9.9.8\glm;C:\VulkanSDK\1.2.148.1\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Syndafloden\Documents\Visual Studio 2019\lib\tinyobj;C:\Users\Syndafloden\Documents\Visual Studio 2019\lib\glfw-3.3.4.bin.WIN64\glfw-3.3.4.bin.WIN64\include;C:\Users\Syndafloden\Documents\Visual Studio 2019\lib\glm-0.9.9.8\glm;C:\VulkanSDK\1.2.148.1\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -106,7 +106,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Syndafloden\Documents\Visual Studio 2019\lib\glfw-3.3.4.bin.WIN64\glfw-3.3.4.bin.WIN64\include;C:\Users\Syndafloden\Documents\Visual Studio 2019\lib\glm-0.9.9.8\glm;C:\VulkanSDK\1.2.148.1\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Syndafloden\Documents\Visual Studio 2019\lib\tinyobj;C:\Users\Syndafloden\Documents\Visual Studio 2019\lib\glfw-3.3.4.bin.WIN64\glfw-3.3.4.bin.WIN64\include;C:\Users\Syndafloden\Documents\Visual Studio 2019\lib\glm-0.9.9.8\glm;C:\VulkanSDK\1.2.148.1\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -124,7 +124,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Syndafloden\Documents\Visual Studio 2019\lib\glfw-3.3.4.bin.WIN64\glfw-3.3.4.bin.WIN64\include;C:\Users\Syndafloden\Documents\Visual Studio 2019\lib\glm-0.9.9.8\glm;C:\VulkanSDK\1.2.148.1\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Syndafloden\Documents\Visual Studio 2019\lib\tinyobj;C:\Users\Syndafloden\Documents\Visual Studio 2019\lib\glfw-3.3.4.bin.WIN64\glfw-3.3.4.bin.WIN64\include;C:\Users\Syndafloden\Documents\Visual Studio 2019\lib\glm-0.9.9.8\glm;C:\VulkanSDK\1.2.148.1\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -142,7 +142,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Syndafloden\Documents\Visual Studio 2019\lib\glfw-3.3.4.bin.WIN64\glfw-3.3.4.bin.WIN64\include;C:\Users\Syndafloden\Documents\Visual Studio 2019\lib\glm-0.9.9.8\glm;C:\VulkanSDK\1.2.148.1\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Syndafloden\Documents\Visual Studio 2019\lib\tinyobj;C:\Users\Syndafloden\Documents\Visual Studio 2019\lib\glfw-3.3.4.bin.WIN64\glfw-3.3.4.bin.WIN64\include;C:\Users\Syndafloden\Documents\Visual Studio 2019\lib\glm-0.9.9.8\glm;C:\VulkanSDK\1.2.148.1\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -179,6 +179,7 @@
     <ClInclude Include="CgeRenderer.h" />
     <ClInclude Include="KeyBoardMovementController.h" />
     <ClInclude Include="Simple_render_System.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\compile.bat" />
