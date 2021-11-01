@@ -51,6 +51,9 @@
     <ClCompile Include="KeyBoardMovementController.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CgeGameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CG_window.h">

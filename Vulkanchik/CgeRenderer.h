@@ -49,10 +49,10 @@ namespace cge {
 		CgeDevice& cgeDevice;
 		std::unique_ptr<CgeSwapChain> cgeSwapChain;
 		std::vector<VkCommandBuffer> commandBuffers;
-		
-		uint32_t currentImageIndex{0};
-		int currentFrameIndex{0};
-		bool isFrameStarted{false};
+
+		uint32_t currentImageIndex{ 0 };
+		int currentFrameIndex{ 0 };
+		bool isFrameStarted{ false };
 
 
 	};

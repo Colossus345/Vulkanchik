@@ -157,6 +157,7 @@
   <ItemGroup>
     <ClCompile Include="CgeCamera.cpp" />
     <ClCompile Include="CgeDevice.cpp" />
+    <ClCompile Include="CgeGameObject.cpp" />
     <ClCompile Include="CgeModel.cpp" />
     <ClCompile Include="CgeRenderer.cpp" />
     <ClCompile Include="CgeSwapchain.cpp" />

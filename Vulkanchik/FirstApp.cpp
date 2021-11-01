@@ -72,7 +72,7 @@ namespace cge {
 
 	void FirstApp::loadGameObjects()
 	{
-        std::shared_ptr<CgeModel> cgeModel = CgeModel::createModelFromFile(cgeDevice,"C:\\Users\\Syndafloden\\source\\repos\\Vulkanchik\\models\\smooth_vase.obj");
+        std::shared_ptr<CgeModel> cgeModel = CgeModel::createModelFromFile(cgeDevice,"C:\\Users\\Syndafloden\\source\\repos\\Vulkanchik\\models\\flat_vase.obj");
 
         auto cube = CgeGameObject::createGameObject();
         cube.model = cgeModel;
