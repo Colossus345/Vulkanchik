@@ -1,4 +1,5 @@
 #include "CgeModel.h"
+#
 
 
 #define TINYOBJLOADER_IMPLEMENTATION
@@ -29,15 +30,7 @@ namespace cge {
 		createIndexBuffers(data.indices);
 	}
 
-	CgeModel::~CgeModel() {
-		vkDestroyBuffer(cgeDevice.device(), vertexBuffer, nullptr);
-		vkFreeMemory(cgeDevice.device(), vertexBufferMemory, nullptr);
-		if (hasIndexBuffer) {
-			vkDestroyBuffer(cgeDevice.device(),	indexBuffer, nullptr);
-			vkFreeMemory(cgeDevice.device(), indexBufferMemory, nullptr);
-		}
-
-	}
+	CgeModel::~CgeModel() {};
 
 	std::unique_ptr<CgeModel> CgeModel::createModelFromFile(CgeDevice& device, const std::string& filepath)
 	{
@@ -49,11 +42,11 @@ namespace cge {
 
 	void CgeModel::bind(VkCommandBuffer commandBuffer)
 	{
-		VkBuffer buffers[] = { vertexBuffer };
+		VkBuffer buffers[] = { vertexBuffer->getBuffer() };
 		VkDeviceSize offsets[] = { 0 };
 		vkCmdBindVertexBuffers(commandBuffer, 0, 1, buffers, offsets);
 		if (hasIndexBuffer) {
-			vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT32);
+			vkCmdBindIndexBuffer(commandBuffer, indexBuffer->getBuffer(), 0, VK_INDEX_TYPE_UINT32);
 		}
 	}
 
@@ -74,38 +67,31 @@ namespace cge {
 		vertexCount = static_cast<uint32_t>(verticies.size());
 		assert(vertexCount >= 3 && "vertex must be at least 3");
 		VkDeviceSize bufferSize = sizeof(verticies[0]) * vertexCount;
+		uint32_t vertexSize = sizeof(verticies[0]);
 
-
-		VkBuffer stagingBuffer;
-		VkDeviceMemory stagingBufferMemory;
-
-		cgeDevice.createBuffer(
-			bufferSize,
+		CgeBuffer stagingBuffer = {
+			cgeDevice,
+			vertexSize,
+			vertexCount,
 			VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-			stagingBuffer,
-			stagingBufferMemory
-		);
+			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
 
-		void* data;
-		vkMapMemory(cgeDevice.device(), stagingBufferMemory, 0, bufferSize, 0, &data);
-		memcpy(data, verticies.data(), static_cast<size_t>(bufferSize));
-		vkUnmapMemory(cgeDevice.device(), stagingBufferMemory);
+		};
 
-		cgeDevice.createBuffer(
-			bufferSize,
+		stagingBuffer.map();
+		stagingBuffer.writeToBuffer((void*)verticies.data());
+
+		vertexBuffer = std::make_unique<CgeBuffer>(
+			cgeDevice,
+			vertexSize,
+			vertexCount,
 			VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
-			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
-			vertexBuffer,
-			vertexBufferMemory
+			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
 		);
-		cgeDevice.copyBuffer(stagingBuffer, vertexBuffer, bufferSize);
 
-		vkDestroyBuffer(cgeDevice.device(), stagingBuffer, nullptr);
-		vkFreeMemory(cgeDevice.device(), stagingBufferMemory, nullptr);
+		cgeDevice.copyBuffer(stagingBuffer.getBuffer(), vertexBuffer->getBuffer(), bufferSize);
 
-
-
+		
 	}
 
 	void CgeModel::createIndexBuffers(const std::vector<uint32_t>& indicies)
@@ -117,33 +103,31 @@ namespace cge {
 			return;
 		}
 		VkDeviceSize bufferSize = sizeof(indicies[0]) * indexCount;
-		VkBuffer stagingBuffer;
-		VkDeviceMemory stagingBufferMemory;
+		uint32_t indexSize = sizeof(indicies[0]);
 
-		cgeDevice.createBuffer(
-			bufferSize,
+		CgeBuffer stagingBuffer = {
+			cgeDevice,
+			indexSize,
+			indexCount,
 			VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
-			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-			stagingBuffer,
-			stagingBufferMemory
-		);
+			VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT
+		};
 
-		void* data;
-		vkMapMemory(cgeDevice.device(), stagingBufferMemory, 0, bufferSize, 0, &data);
-		memcpy(data, indicies.data(), static_cast<size_t>(bufferSize));
-		vkUnmapMemory(cgeDevice.device(), stagingBufferMemory);
+		
+		stagingBuffer.map();
+		stagingBuffer.writeToBuffer((void*)indicies.data());
 
-		cgeDevice.createBuffer(
-			bufferSize,
+		indexBuffer = std::make_unique<CgeBuffer>(
+			cgeDevice,
+			indexSize,
+			indexCount,
 			VK_BUFFER_USAGE_INDEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT,
-			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT,
-			indexBuffer,
-			indexBufferMemory
+			VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT
 		);
-		cgeDevice.copyBuffer(stagingBuffer, indexBuffer, bufferSize);
+		
+		cgeDevice.copyBuffer(stagingBuffer.getBuffer(), indexBuffer->getBuffer(), bufferSize);
 
-		vkDestroyBuffer(cgeDevice.device(), stagingBuffer, nullptr);
-		vkFreeMemory(cgeDevice.device(), stagingBufferMemory, nullptr);
+		
 	}
 
 	

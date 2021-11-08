@@ -4,7 +4,7 @@
 #include"CgeDevice.h"
 #include"CgeGameObject.h"
 #include"CG_pipeline.h"
-
+#include"Cge_Frame_Info.h"
 
 #include<memory>
 #include<vector>
@@ -18,9 +18,8 @@ namespace cge {
 		SimpleRenderSystem(const SimpleRenderSystem&) = delete;
 		SimpleRenderSystem& operator =(const SimpleRenderSystem&) = delete;
 
-		void renderGameObjects(VkCommandBuffer commandBuffer, 
-			std::vector<CgeGameObject>& gameObjects,
-			const CgeCamera& camera);
+		void renderGameObjects(FrameInfo &frameInfo, 
+			std::vector<CgeGameObject>& gameObjects);
 
 	private:
 		 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include"CgeDevice.h"
+#include"Cge_buffer.h"
 
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
@@ -58,14 +59,13 @@ namespace cge {
 
 
 		CgeDevice &cgeDevice;
-		VkBuffer vertexBuffer;
-		VkDeviceMemory vertexBufferMemory;
+
+		std::unique_ptr<CgeBuffer> vertexBuffer;
 		uint32_t vertexCount;
 
 		bool hasIndexBuffer = false;
 
-		VkBuffer indexBuffer;
-		VkDeviceMemory indexBufferMemory;
+		std::unique_ptr<CgeBuffer> indexBuffer;
 		uint32_t indexCount;
 
 
