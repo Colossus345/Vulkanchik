@@ -4,6 +4,8 @@
 #include"CgeDevice.h"
 #include"CgeGameObject.h"
 #include"CgeRenderer.h"
+#include"Cge_Descriptors.h"
+
 
 
 
@@ -35,6 +37,7 @@ namespace cge {
 		CgeDevice cgeDevice{ cgeWindow };
 		CgeRenderer cgeRenderer{ cgeWindow,cgeDevice };
 
+		std::unique_ptr<CgeDescriptorPool> globalPool{};
 		std::vector<CgeGameObject> gameObjects;
 
 		

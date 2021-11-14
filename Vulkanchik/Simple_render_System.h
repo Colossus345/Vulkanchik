@@ -12,7 +12,7 @@
 namespace cge {
 	class SimpleRenderSystem {
 	public:
-		SimpleRenderSystem(CgeDevice& device,VkRenderPass renderPass);
+		SimpleRenderSystem(CgeDevice& device,VkRenderPass renderPass, VkDescriptorSetLayout globalSetLayout);
 		~SimpleRenderSystem();
 
 		SimpleRenderSystem(const SimpleRenderSystem&) = delete;
@@ -23,7 +23,7 @@ namespace cge {
 
 	private:
 		 
-		void createPipelineLayout();
+		void createPipelineLayout(VkDescriptorSetLayout globalSetLayout);
 		void createPipeline(VkRenderPass renderPass);
 		
 

@@ -162,6 +162,7 @@
     <ClCompile Include="CgeRenderer.cpp" />
     <ClCompile Include="CgeSwapchain.cpp" />
     <ClCompile Include="Cge_buffer.cpp" />
+    <ClCompile Include="Cge_Descriptors.cpp" />
     <ClCompile Include="CG_window.cpp" />
     <ClCompile Include="FirstApp.cpp" />
     <ClCompile Include="KeyBoardMovementController.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="CgeModel.h" />
     <ClInclude Include="CgeSwapchain.h" />
     <ClInclude Include="Cge_buffer.h" />
+    <ClInclude Include="Cge_Descriptors.h" />
     <ClInclude Include="Cge_Frame_Info.h" />
     <ClInclude Include="CG_window.h" />
     <ClInclude Include="FirstApp.h" />

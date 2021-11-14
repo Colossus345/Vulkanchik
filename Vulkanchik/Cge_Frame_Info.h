@@ -11,6 +11,7 @@ namespace cge {
 		float frameTime;
 		VkCommandBuffer commandBuffer;
 		CgeCamera& camera;
+		VkDescriptorSet globalDescriptorSet;
 	};
 
 }
