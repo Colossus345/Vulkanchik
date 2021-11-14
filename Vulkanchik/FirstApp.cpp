@@ -24,7 +24,10 @@ namespace cge {
 
 	struct GlobalUbo {
 		glm::mat4 projectionView{ 1.f };
-		glm::vec3 lightDirection = glm::normalize(glm::vec3(1.f, -3.f, -1.f));
+		glm::vec4 ambientLightColor{ 1.f,1.f,1.f,.02f};
+		glm::vec3 lightPosition{ -1.f };
+		alignas(16) glm::vec4 lightColor{ 1.f };
+		 
 	};
 
 
@@ -79,6 +82,7 @@ namespace cge {
         camera.setViewTarget(glm::vec3(-2.f, -1.f, 2.f), glm::vec3(0.f, 0.f, 2.5f));
 
         auto viewerObject = CgeGameObject::createGameObject();
+		viewerObject.transform.translation.z = -2.5f;
         KeyBoardMovementController cameraController{};
 
         auto currentTime = std::chrono::high_resolution_clock::now();
@@ -129,7 +133,7 @@ namespace cge {
 
         auto flat = CgeGameObject::createGameObject();
 		flat.model = cgeModel;
-		flat.transform.translation = {-.5f,.5f,2.5f };
+		flat.transform.translation = {-.5f,.5f,.0f };
 		flat.transform.scale = { 3.f,1.5f,3.f };
         gameObjects.push_back(std::move(flat));
 
@@ -137,8 +141,16 @@ namespace cge {
 
 		auto smooth = CgeGameObject::createGameObject();
 		smooth.model = cgeModel;
-		smooth.transform.translation = { .5f,.5f,2.5f };
+		smooth.transform.translation = { .5f,.5f,.0f };
 		smooth.transform.scale = { 3.f,1.5f,3.f };
 		gameObjects.push_back(std::move(smooth));
+
+		cgeModel = CgeModel::createModelFromFile(cgeDevice, "C:\\Users\\Syndafloden\\source\\repos\\Vulkanchik\\models\\quad.obj");
+
+		auto floor = CgeGameObject::createGameObject();
+		floor.model = cgeModel;
+		floor.transform.translation = { 0.f,.5f,.0f };
+		floor.transform.scale = { 3.f,1.5f,3.f };
+		gameObjects.push_back(std::move(floor));
 	}
 }
