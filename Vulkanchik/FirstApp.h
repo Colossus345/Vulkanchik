@@ -38,7 +38,7 @@ namespace cge {
 		CgeRenderer cgeRenderer{ cgeWindow,cgeDevice };
 
 		std::unique_ptr<CgeDescriptorPool> globalPool{};
-		std::vector<CgeGameObject> gameObjects;
+		CgeGameObject::Map gameObjects;
 
 		
 	};

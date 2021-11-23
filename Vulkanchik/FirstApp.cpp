@@ -63,7 +63,7 @@ namespace cge {
 		}
 
 		auto globalSetLayout = CgeDescriptorSetLayout::Builder(cgeDevice)
-			.addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_VERTEX_BIT)
+			.addBinding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_ALL_GRAPHICS)
 			.build();
 
 		std::vector<VkDescriptorSet> globalDescriptorSets(CgeSwapChain::MAX_FRAMES_IN_FLIGHT);
@@ -110,7 +110,8 @@ namespace cge {
 					frameTime,
 					commandBuffer,
 					camera,
-					globalDescriptorSets[frameIndex]
+					globalDescriptorSets[frameIndex],
+					gameObjects
 				};
 				GlobalUbo ubo{};
 				ubo.projectionView = camera.getProjection() * camera.getView();
@@ -119,7 +120,7 @@ namespace cge {
 
 				//render
 				cgeRenderer.beginSwapChainRenderPass(commandBuffer);
-				simpleRenderSystem.renderGameObjects(frameInfo, gameObjects);
+				simpleRenderSystem.renderGameObjects(frameInfo);
 				cgeRenderer.endSwapChainRenderPass(commandBuffer);
 				cgeRenderer.endFrame();
 			}
@@ -135,7 +136,7 @@ namespace cge {
 		flat.model = cgeModel;
 		flat.transform.translation = {-.5f,.5f,.0f };
 		flat.transform.scale = { 3.f,1.5f,3.f };
-        gameObjects.push_back(std::move(flat));
+        gameObjects.emplace(flat.get_id(),std::move(flat));
 
 		cgeModel = CgeModel::createModelFromFile(cgeDevice, "C:\\Users\\Syndafloden\\source\\repos\\Vulkanchik\\models\\smooth_vase.obj");
 
@@ -143,7 +144,7 @@ namespace cge {
 		smooth.model = cgeModel;
 		smooth.transform.translation = { .5f,.5f,.0f };
 		smooth.transform.scale = { 3.f,1.5f,3.f };
-		gameObjects.push_back(std::move(smooth));
+		gameObjects.emplace(smooth.get_id(),std::move(smooth));
 
 		cgeModel = CgeModel::createModelFromFile(cgeDevice, "C:\\Users\\Syndafloden\\source\\repos\\Vulkanchik\\models\\quad.obj");
 
@@ -151,6 +152,6 @@ namespace cge {
 		floor.model = cgeModel;
 		floor.transform.translation = { 0.f,.5f,.0f };
 		floor.transform.scale = { 3.f,1.5f,3.f };
-		gameObjects.push_back(std::move(floor));
+		gameObjects.emplace(floor.get_id(), std::move(floor));
 	}
 }

@@ -72,7 +72,7 @@ namespace cge {
 	}
 
 
-	void SimpleRenderSystem::renderGameObjects(FrameInfo &frameInfo,std::vector<CgeGameObject>& gameObjects)
+	void SimpleRenderSystem::renderGameObjects(FrameInfo &frameInfo)
 	{
 		cgePipeline->bind(frameInfo.commandBuffer);
 
@@ -87,8 +87,9 @@ namespace cge {
 			nullptr);
 
 
-		for (auto& obj : gameObjects) {
+		for (auto& key : frameInfo.gameObjects) {
 
+			auto& obj = key.second;
 			
 			SimplePushConstantData push{};
 			

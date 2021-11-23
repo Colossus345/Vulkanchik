@@ -18,8 +18,7 @@ namespace cge {
 		SimpleRenderSystem(const SimpleRenderSystem&) = delete;
 		SimpleRenderSystem& operator =(const SimpleRenderSystem&) = delete;
 
-		void renderGameObjects(FrameInfo &frameInfo, 
-			std::vector<CgeGameObject>& gameObjects);
+		void renderGameObjects(FrameInfo &frameInfo);
 
 	private:
 		 
